@@ -12,7 +12,7 @@ Zmiany w stosunku do poprzedniej iteracji:
 
 # Sposób testowania
 ```
-ab -l -n 100000 -c 10 http://127.0.0.1:8080/
+ab -l -n 100000 -c 10 http://127.0.0.1:8080/benchmark/helloworld
 ```
 
 100k requestów wysyłanych w 10 wątkach.

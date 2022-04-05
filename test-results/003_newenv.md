@@ -22,6 +22,7 @@ Założeniem testu i dokonywanych ustawień jest, aby stopa błędów zawsze wyn
 
 Uwagi:
 - Zgodnie z oczekiwaniami, wykonanie testu na przygotowanej instancji testu zauwazalnie skrocilo czas trwania i zwiekszylo ilosc requestow na sekunde
+- loadavg podczas testow nie przekroczył 6, co w zestawieniu z brakiem komunikacji z zewnetrznymi komponentami i dużą ilością wolnej pamięci, potwierdza że zasobów CPU na stacji testowej nie brakuje.
 
 # Surowe wyniki testów
 

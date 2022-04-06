@@ -1,13 +1,19 @@
-web:
-    image: nginx:latest
-    ports:
-        - "8080:80"
-    volumes:
-        - ../code/phpbenchmarks-symfony-helloworld:/code
-        - ./files/nginx-site.conf:/etc/nginx/conf.d/default.conf
-    links:
-        - php
-php:
-    image: php:7-fpm
-    volumes:
-        - ../code/phpbenchmarks-symfony-helloworld:/code
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - "8080:80"
+        volumes:
+            - ../code/phpbenchmarks-symfony-helloworld:/code
+            - ./files/nginx-site.conf:/etc/nginx/conf.d/default.conf
+            - "phpsocket:/var/run/php/"
+        links:
+            - php
+    php:
+        image: php:7-fpm
+        volumes:
+            - ../code/phpbenchmarks-symfony-helloworld:/code
+            - ./files/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - "phpsocket:/var/run/php/"
+volumes:
+    phpsocket:

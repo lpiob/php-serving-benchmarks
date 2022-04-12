@@ -4,4 +4,5 @@ apache2:
         - "8080:80"
     volumes:
         - ./files/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+        - ./files/mpm_prefork.conf:/etc/apache2/mods-available/mpm_prefork.conf
         - ../code/phpbenchmarks-symfony-helloworld:/var/www/html

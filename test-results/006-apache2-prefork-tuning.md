@@ -1,6 +1,6 @@
-Test wykonany na commitcie: `2ebd29b26ed74086e43543e031a718e7a4f7624c`
+Test wykonany na commitcie: `0e621e905a72901200f59369580346137d93f43d`
 
-Zmianie ulegla konfiguracja php-fpm. Process manager został przełączony z domyślnego `dynamic` na `static`. Ustawiono na sztywno `max_children` na ilość równą ilości dostępnych procesorów (16) i przekraczającą ilość waktów ab.
+Tak jak php-fpm mozna ustawic na sztywno na ilosc procesow, tak samo mozna zrobic w mpm prefork w apache2. Ten test zostal wykonany po takiej samej zmianie. Ilosc procesow obslugujacych requesty zostala ustawiona - podobnie jak w przypadku php-fpm - na 16.
 
 # Sposób testowania
 ```
@@ -15,11 +15,12 @@ Założeniem testu i dokonywanych ustawień jest, aby stopa błędów zawsze wyn
 
 | Sposób serwowania   | Stopa błędów | Czas testu | rps      |
 | -----------------   | ------------ | ---------- | ---      |
-| apache2 + mod\_php  | 0.00%        | 242.683s   | 412.06   |
-| nginx + fpm         | 0.00%        | 229.974s   | 434.83   |
+| apache2 + mod\_php  | 0.00%        | 244.248s   | 409.42   |
+| nginx + fpm         | 0.00%        | 230.051s   | 434.69   |
 
 Uwagi:
-- Przepustowosc php-fpm drastycznie wzrosla, przekraczająć ilość requestów na sekundę obsługiwaną dotychczas przez apache2.
+- Brak znaczacego wplywu na wynik testu
+- Domyslne ustawienia apache2 (sprzed zmiany) byly wystarczajce do obslugi ruchu
 
 # Surowe wyniki testów
 
@@ -53,33 +54,33 @@ Document Path:          /benchmark/helloworld
 Document Length:        Variable
 
 Concurrency Level:      10
-Time taken for tests:   242.683 seconds
+Time taken for tests:   244.248 seconds
 Complete requests:      100000
 Failed requests:        0
 Total transferred:      30100000 bytes
 HTML transferred:       1300000 bytes
-Requests per second:    412.06 [#/sec] (mean)
-Time per request:       24.268 [ms] (mean)
-Time per request:       2.427 [ms] (mean, across all concurrent requests)
-Transfer rate:          121.12 [Kbytes/sec] received
+Requests per second:    409.42 [#/sec] (mean)
+Time per request:       24.425 [ms] (mean)
+Time per request:       2.442 [ms] (mean, across all concurrent requests)
+Transfer rate:          120.35 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
 Connect:        0    0   0.0      0       0
-Processing:    19   24   3.0     24     116
-Waiting:       19   24   3.0     24     116
-Total:         19   24   3.1     24     116
+Processing:    19   24   3.1     25     117
+Waiting:       19   24   3.1     25     117
+Total:         19   24   3.1     25     117
 
 Percentage of the requests served within a certain time (ms)
-  50%     24
+  50%     25
   66%     26
   75%     27
-  80%     27
+  80%     28
   90%     28
   95%     28
   98%     29
-  99%     29
- 100%    116 (longest request)
+  99%     30
+ 100%    117 (longest request)
 ```
 
 ## nginx + fpm
@@ -112,22 +113,22 @@ Document Path:          /benchmark/helloworld
 Document Length:        Variable
 
 Concurrency Level:      10
-Time taken for tests:   229.974 seconds
+Time taken for tests:   230.051 seconds
 Complete requests:      100000
 Failed requests:        0
 Total transferred:      27100000 bytes
 HTML transferred:       1300000 bytes
-Requests per second:    434.83 [#/sec] (mean)
-Time per request:       22.997 [ms] (mean)
-Time per request:       2.300 [ms] (mean, across all concurrent requests)
-Transfer rate:          115.08 [Kbytes/sec] received
+Requests per second:    434.69 [#/sec] (mean)
+Time per request:       23.005 [ms] (mean)
+Time per request:       2.301 [ms] (mean, across all concurrent requests)
+Transfer rate:          115.04 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
 Connect:        0    0   0.0      0       0
-Processing:    18   23   2.6     23      57
-Waiting:       18   23   2.6     23      57
-Total:         18   23   2.6     23      57
+Processing:    18   23   2.6     23     111
+Waiting:       18   23   2.6     23     111
+Total:         18   23   2.6     23     111
 
 Percentage of the requests served within a certain time (ms)
   50%     23
@@ -136,7 +137,8 @@ Percentage of the requests served within a certain time (ms)
   80%     26
   90%     26
   95%     27
-  98%     28
+  98%     27
   99%     28
- 100%     57 (longest request)
+ 100%    111 (longest request)
+
 ```

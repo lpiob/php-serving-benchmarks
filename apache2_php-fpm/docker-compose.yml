@@ -1,0 +1,19 @@
+services:
+    web:
+        image: httpd:2.4-bullseye
+        ports:
+            - "8080:80"
+        volumes:
+            - ../code/phpbenchmarks-symfony-helloworld:/code
+            - ./files/httpd.conf:/usr/local/apache2/conf/httpd.conf
+            - "phpsocket:/var/run/php/"
+        links:
+            - php
+    php:
+        image: php:7-fpm
+        volumes:
+            - ../code/phpbenchmarks-symfony-helloworld:/code
+            - ./files/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - "phpsocket:/var/run/php/"
+volumes:
+    phpsocket:

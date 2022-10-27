@@ -1,0 +1,8 @@
+services:
+    web:
+        image: phppm/nginx:local
+        command: --workers=16
+        ports:
+            - "8080:80"
+        volumes:
+            - ../code/phpbenchmarks-symfony-helloworld:/var/www
